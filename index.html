@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#ffffff">
 <meta name="color-scheme" content="light only">
-<title>Cobros · Panel de creador</title>
+<title>Pagos · Panel de creador</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💸</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,7 +37,11 @@ button{font-family:inherit;cursor:pointer;color:inherit}
 .icon-btn svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .top h1{font:800 21px/1 var(--ff-h);text-align:center}
 .top-r{display:flex;align-items:center;gap:2px}
-.avatar{width:34px;height:34px;border-radius:50%;background:var(--lime);color:var(--teal);display:grid;place-items:center;font:800 13px var(--ff-h);margin-left:4px}
+.avatar{position:relative;width:36px;height:36px;margin-left:4px;flex:none}
+.avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
+.avatar .flecha{position:absolute;right:-3px;bottom:-3px;width:16px;height:16px;border-radius:50%;background:#fff;
+  box-shadow:0 0 0 1.5px #fff,0 1px 3px rgba(0,0,0,.25);display:grid;place-items:center}
+.avatar .flecha svg{width:11px;height:11px;stroke:var(--ink);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
 
 
 /* Pestañas */
@@ -141,10 +145,10 @@ button{font-family:inherit;cursor:pointer;color:inherit}
 <main class="app">
   <header class="top">
     <button class="icon-btn" id="volver" aria-label="Volver"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
-    <h1>Cobros</h1>
+    <h1>Pagos</h1>
     <div class="top-r">
       <button class="icon-btn" aria-label="Ajustes"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
-      <div class="avatar" aria-hidden="true">TÚ</div>
+      <div class="avatar" aria-hidden="true"><img src="images/avatar.jpg" alt=""><span class="flecha"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span></div>
     </div>
   </header>
 
@@ -180,7 +184,7 @@ button{font-family:inherit;cursor:pointer;color:inherit}
 
     <div class="pad">
       <section class="panel">
-        <div class="panel-head"><h3>Pendiente de cobro <span class="warn" aria-hidden="true">!</span></h3><button class="link" data-ir="trans">Ver todas</button></div>
+        <div class="panel-head"><h3>Pendiente de pago <span class="warn" aria-hidden="true">!</span></h3><button class="link" data-ir="trans">Ver todas</button></div>
         <div class="amount">--,-- USD</div>
         <p class="note" id="nota">Se requiere un ingreso mínimo de $25,00.</p>
         <div class="progress" aria-hidden="true"><i id="barraProgreso"></i></div>
