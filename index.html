@@ -185,7 +185,7 @@ button{font-family:inherit;cursor:pointer;color:inherit}
     <div class="pad">
       <section class="panel">
         <div class="panel-head"><h3>Pendiente de pago <span class="warn" aria-hidden="true">!</span></h3><button class="link" data-ir="trans">Ver todas</button></div>
-        <div class="amount">--,-- USD</div>
+        <div class="amount" id="monto">--,-- USD</div>
         <p class="note" id="nota">Se requiere un ingreso mínimo de $25,00.</p>
         <div class="progress" aria-hidden="true"><i id="barraProgreso"></i></div>
         <p class="prog-txt" id="progTxt"></p>
@@ -193,8 +193,8 @@ button{font-family:inherit;cursor:pointer;color:inherit}
         <div id="vistaGrafico">
           <div class="chart-wrap">
             <span class="grid" style="top:0"></span><span class="grid" style="top:75px"></span>
-            <span class="y" style="top:0">US$4</span><span class="y" style="top:75px">US$2</span><span class="y" style="top:150px">US$0</span>
-            <div class="chart" id="chart" role="group" aria-label="Gráfico de ejemplo de ingresos de junio a noviembre"></div>
+            <span class="y" id="yMax" style="top:0">US$4</span><span class="y" id="yMid" style="top:75px">US$2</span><span class="y" style="top:150px">US$0</span>
+            <div class="chart" id="chart" role="group" aria-label="Gráfico de ingresos de junio a noviembre"></div>
           </div>
           <div class="months" id="months"></div>
           <p class="hint">Toca una barra para ver el monto del mes</p>
@@ -249,25 +249,52 @@ var CONFIG = {
   enlaceEmpezar: "#",   // botón "Empezar" (ej. https://wa.me/51999999999)
   enlacePerfil:  "#",   // botón "Completar perfil"
   enlaceCobro:   "#",   // botón "Agregar forma de cobro"
-  minimo: 25,           // monto mínimo para cobrar (USD)
-  maxGrafico: 4         // valor más alto del gráfico (US$4)
+  minimo: 25           // monto mínimo para cobrar (USD)
 };
 
-// Datos de ejemplo (uno por mes). "monto: 0" = mes sin ingresos todavía.
-var DATOS = [
-  { mes: "jun", fecha: "", monto: 0 },
-  { mes: "jul", fecha: "", monto: 0 },
-  { mes: "ago", fecha: "", monto: 0 },
-  { mes: "sep", fecha: "", monto: 0 },
-  { mes: "oct", fecha: "", monto: 0 },
-  { mes: "nov", fecha: "", monto: 0 }
+// Tus ingresos: uno por línea, con fecha (año-mes-día) y monto en USD.
+var INGRESOS = [
+  { fecha: "2026-11-16", monto: 45.23 },
+  { fecha: "2026-11-15", monto: 68.34 },
+  { fecha: "2026-11-14", monto: 137.69 },
+  { fecha: "2026-11-13", monto: 58.90 },
+  { fecha: "2026-11-12", monto: 345.21 },
+  { fecha: "2026-11-10", monto: 76.10 },
+  { fecha: "2026-11-09", monto: 234.20 },
+  { fecha: "2026-11-08", monto: 13.40 },
+  { fecha: "2026-11-07", monto: 19.70 }
 ];
-// Ejemplo de cómo se escribe un ingreso cuando lo tengas:
-// { mes: "nov", fecha: "30 nov. 2026", monto: 2.50 },
 /* ========================================================= */
 
-function dinero(n) { return "$" + n.toFixed(2).replace(".", ","); }
+var NOMBRES_MES = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+function dinero(n) {
+  var p = n.toFixed(2).split(".");
+  return "$" + p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "," + p[1];
+}
+function fechaBonita(f) {
+  var x = f.split("-");
+  return parseInt(x[2], 10) + " " + NOMBRES_MES[parseInt(x[1], 10) - 1] + ". " + x[0];
+}
+
+// Suma por mes (de junio a noviembre de 2026) para el gráfico
+var DATOS = [6, 7, 8, 9, 10, 11].map(function (m) {
+  var suma = INGRESOS.reduce(function (s, d) {
+    var x = d.fecha.split("-");
+    return (x[0] === "2026" && parseInt(x[1], 10) === m) ? s + d.monto : s;
+  }, 0);
+  return { mes: NOMBRES_MES[m - 1], monto: suma };
+});
+var mayor = Math.max.apply(null, DATOS.map(function (d) { return d.monto; }));
+var maxGrafico = 4;
+if (mayor > 0) {
+  var base = Math.pow(10, Math.floor(Math.log10(mayor)));
+  maxGrafico = [1, 2, 2.5, 5, 10].map(function (k) { return k * base; }).filter(function (v) { return v >= mayor; })[0];
+}
+function corto(n) { return "US$" + (n % 1 ? n.toFixed(1).replace(".", ",") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ".")); }
+
 function $(id) { return document.getElementById(id); }
+$("yMax").textContent = corto(maxGrafico);
+$("yMid").textContent = corto(maxGrafico / 2);
 
 // Enlaces de botones
 $("cta").href = CONFIG.enlaceEmpezar;
@@ -275,7 +302,9 @@ $("cta2").href = CONFIG.enlacePerfil;
 $("cta3").href = CONFIG.enlaceCobro;
 
 // Totales y progreso hacia el mínimo
-var total = DATOS.reduce(function (s, d) { return s + d.monto; }, 0);
+var total = INGRESOS.reduce(function (s, d) { return s + d.monto; }, 0);
+var alcanzado = total >= CONFIG.minimo;
+$("monto").textContent = alcanzado ? dinero(total) + " USD" : "--,-- USD";
 var falta = Math.max(0, CONFIG.minimo - total);
 $("nota").textContent = "Se requiere un ingreso mínimo de " + dinero(CONFIG.minimo) + ".";
 $("promoTitulo").textContent = falta > 0
@@ -308,7 +337,7 @@ var barras = DATOS.map(function (d) {
 requestAnimationFrame(function () {
   barras.forEach(function (b, i) {
     setTimeout(function () {
-      b.style.height = Math.min(100, DATOS[i].monto / CONFIG.maxGrafico * 100) + "%";
+      b.style.height = Math.min(100, DATOS[i].monto / maxGrafico * 100) + "%";
     }, 120 * i);
   });
 });
@@ -328,10 +357,12 @@ $("classic").addEventListener("click", function () {
 // Filas de actividad
 function fila(d) {
   return '<div class="row"><div class="ic" aria-hidden="true">💵</div>' +
-    '<div class="t">Creador de ejemplo<small>Ingresos por contenido</small><small>' + d.fecha + '</small></div>' +
-    '<div class="m">' + dinero(d.monto) + '<small>Monto bruto: ' + dinero(d.monto) + '<br>Listo, por debajo del límite</small></div></div>';
+    '<div class="t">Frutinovelas TV<small>Ingresos por contenido</small><small>' + fechaBonita(d.fecha) + '</small></div>' +
+    '<div class="m">' + dinero(d.monto) + '<small>Monto bruto: ' + dinero(d.monto) + '<br>' +
+    (alcanzado ? 'Listo para pago' : 'Listo, por debajo del límite') + '</small></div></div>';
 }
-var conIngresos = DATOS.filter(function (d) { return d.monto > 0; }).reverse();
+var conIngresos = INGRESOS.filter(function (d) { return d.monto > 0; })
+  .sort(function (a, b) { return a.fecha < b.fecha ? 1 : -1; });
 var VACIO = '<div class="vacio"><b>Aún no hay actividad</b>Aquí verás tus ingresos cuando empieces a generarlos.</div>';
 $("actividad").innerHTML = conIngresos.length ? conIngresos.slice(0, 2).map(fila).join("") : VACIO;
 $("todas").innerHTML = conIngresos.length ? conIngresos.map(fila).join("") : VACIO.replace("actividad", "transacciones");
