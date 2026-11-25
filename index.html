@@ -14,7 +14,7 @@
 :root{
   color-scheme:light only;
   --ink:#111111; --muted:#5f6368; --bg:#ffffff; --card:#ffffff;
-  --teal:#1a6ed8; --teal-d:#1559b0; --lime:#e3eefc; --line:#e3e6ea; --bar:#9cc9f5; --chip:#e8f1fd; --star:#e08a1e;
+  --teal:#1a6ed8; --teal-d:#1559b0; --lime:#e3eefc; --line:#e3e6ea; --bar:#9cc9f5; --chip:#e8f1fd; --star:#e08a1e; --verde:#1e8e3e;
   --shadow:0 2px 10px rgba(0,0,0,.07);
   --ff-h:"Bricolage Grotesque","Trebuchet MS",sans-serif;
   --ff-b:"Figtree","Segoe UI",Arial,sans-serif;
@@ -37,8 +37,25 @@ button{font-family:inherit;cursor:pointer;color:inherit}
 .icon-btn svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .top h1{font:800 21px/1 var(--ff-h);text-align:center}
 .top-r{display:flex;align-items:center;gap:2px}
-.avatar{position:relative;width:36px;height:36px;margin-left:4px;flex:none}
-.avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
+.avatar{position:relative;width:36px;height:36px;margin-left:4px;flex:none;border:0;padding:0;background:transparent;border-radius:50%}
+.foto{width:100%;height:100%;border-radius:50%;display:grid;place-items:center;overflow:hidden;font-size:20px}
+.foto img{width:100%;height:100%;object-fit:cover;display:block}
+.avatar .flecha svg{transition:transform .2s}
+.avatar[aria-expanded=true] .flecha svg{transform:rotate(180deg)}
+/* Menú de perfiles */
+.perfiles-wrap{position:relative}
+.menu-perfiles{position:absolute;right:0;top:calc(100% + 8px);width:250px;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.14);padding:6px;z-index:50;transform-origin:top right;animation:abrirMenu .16s ease}
+@keyframes abrirMenu{from{opacity:0;transform:scale(.95) translateY(-4px)}to{opacity:1;transform:none}}
+.menu-perfiles p{font-size:12px;color:var(--muted);padding:8px 10px 4px}
+.opcion{display:flex;align-items:center;gap:10px;width:100%;border:0;background:transparent;padding:9px 10px;border-radius:10px;
+  text-align:left;font:500 15px var(--ff-b);color:var(--ink)}
+.opcion:hover,.opcion:focus-visible{background:var(--chip)}
+.opcion .foto{width:34px;height:34px;flex:none;font-size:18px}
+.opcion span{flex:1}
+.opcion .check{width:18px;height:18px;stroke:var(--teal);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round;visibility:hidden}
+.opcion[aria-current=true]{background:var(--chip);font-weight:600}
+.opcion[aria-current=true] .check{visibility:visible}
 .avatar .flecha{position:absolute;right:-3px;bottom:-3px;width:16px;height:16px;border-radius:50%;background:#fff;
   box-shadow:0 0 0 1.5px #fff,0 1px 3px rgba(0,0,0,.25);display:grid;place-items:center}
 .avatar .flecha svg{width:11px;height:11px;stroke:var(--ink);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
@@ -109,7 +126,7 @@ button{font-family:inherit;cursor:pointer;color:inherit}
 .row .ic{flex:none;width:30px;height:30px;display:grid;place-items:center;font-size:20px}
 .row .t{flex:1;min-width:0;font-size:16px;line-height:1.3}
 .row .t small{display:block;color:var(--muted);font-size:14px;margin-top:2px}
-.row .m{text-align:right;font:700 18px var(--ff-h)}
+.row .m{text-align:right;font:700 18px var(--ff-h);color:var(--verde)}
 .row .m small{display:block;font:400 12px/1.35 var(--ff-b);color:var(--muted);margin-top:2px}
 .total{display:flex;justify-content:space-between;font:700 16px var(--ff-h);padding-top:12px;margin-top:4px;border-top:2px solid var(--line)}
 
@@ -148,7 +165,13 @@ button{font-family:inherit;cursor:pointer;color:inherit}
     <h1>Pagos</h1>
     <div class="top-r">
       <button class="icon-btn" aria-label="Ajustes"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
-      <div class="avatar" aria-hidden="true"><img src="images/avatar.jpg" alt=""><span class="flecha"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span></div>
+      <div class="perfiles-wrap">
+        <button class="avatar" id="avatarBtn" aria-haspopup="true" aria-expanded="false" aria-label="Cambiar de página"><span class="foto" id="fotoActual"></span><span class="flecha"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span></button>
+        <div class="menu-perfiles" id="menuPerfiles" role="menu" hidden>
+          <p>Tus páginas</p>
+          <div id="listaPerfiles"></div>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -222,7 +245,7 @@ button{font-family:inherit;cursor:pointer;color:inherit}
     <section class="panel">
       <div class="act-head"><h4>Todas las transacciones</h4></div>
       <div id="todas"></div>
-      <div class="total"><span>Total acumulado</span><span id="totalTxt"></span></div>
+      <div class="total"><span>Total acumulado</span><span id="totalTxt" style="color:var(--verde)"></span></div>
     </section>
   </div>
 
@@ -252,18 +275,51 @@ var CONFIG = {
   minimo: 25           // monto mínimo para cobrar (USD)
 };
 
-// Tus ingresos: uno por línea, con fecha (año-mes-día) y monto en USD.
-var INGRESOS = [
-  { fecha: "2026-11-16", monto: 45.23 },
-  { fecha: "2026-11-15", monto: 68.34 },
-  { fecha: "2026-11-14", monto: 137.69 },
-  { fecha: "2026-11-13", monto: 58.90 },
-  { fecha: "2026-11-12", monto: 345.21 },
-  { fecha: "2026-11-10", monto: 76.10 },
-  { fecha: "2026-11-09", monto: 234.20 },
-  { fecha: "2026-11-08", monto: 13.40 },
-  { fecha: "2026-11-07", monto: 19.70 }
-];
+// Tus páginas. Cada una tiene su nombre, su foto y sus ingresos
+// (fecha año-mes-día y monto en USD). Para darle foto a una página,
+// pon la imagen en la carpeta images y escribe su nombre en "foto".
+var PERFILES = {
+  "frutinovelas": {
+    nombre: "Frutinovelas TV",
+    foto: "images/avatar.jpg",
+    ingresos: [
+      { fecha: "2026-11-16", monto: 45.23 },
+      { fecha: "2026-11-15", monto: 68.34 },
+      { fecha: "2026-11-14", monto: 137.69 },
+      { fecha: "2026-11-13", monto: 58.90 },
+      { fecha: "2026-11-12", monto: 345.21 },
+      { fecha: "2026-11-10", monto: 76.10 },
+      { fecha: "2026-11-09", monto: 234.20 },
+      { fecha: "2026-11-08", monto: 13.40 },
+      { fecha: "2026-11-07", monto: 19.70 }
+    ]
+  },
+  "perrito-pelon": {
+    nombre: "Perrito Pelón",
+    foto: "", emoji: "🐶", color: "#fde7c8",
+    ingresos: []
+  },
+  "gato-cenatino": {
+    nombre: "Gato Cenatino",
+    foto: "", emoji: "🐱", color: "#e4e1fb",
+    ingresos: []
+  },
+  "aprende-ia": {
+    nombre: "Aprende IA",
+    foto: "", emoji: "🤖", color: "#d9f1ea",
+    ingresos: [
+      { fecha: "2026-11-22", monto: 34.16 },
+      { fecha: "2026-11-21", monto: 8.82 },
+      { fecha: "2026-11-20", monto: 13.47 }
+    ]
+  }
+};
+
+// Página que se está viendo (se elige con el menú de la foto de perfil)
+var idActual = location.hash.replace("#", "");
+if (!PERFILES[idActual]) idActual = "frutinovelas";
+var actual = PERFILES[idActual];
+var INGRESOS = actual.ingresos;
 /* ========================================================= */
 
 var NOMBRES_MES = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
@@ -311,7 +367,7 @@ $("promoTitulo").textContent = falta > 0
   ? "Te faltan " + dinero(falta) + " USD para recibir tu primer pago"
   : "¡Ya alcanzaste el mínimo para cobrar!";
 $("progTxt").innerHTML = "Acumulado: <b>" + dinero(total) + "</b> de " + dinero(CONFIG.minimo);
-$("totalTxt").textContent = dinero(total);
+$("totalTxt").textContent = dinero(total) + " USD";
 setTimeout(function () {
   $("barraProgreso").style.width = Math.min(100, total / CONFIG.minimo * 100) + "%";
 }, 300);
@@ -357,8 +413,8 @@ $("classic").addEventListener("click", function () {
 // Filas de actividad
 function fila(d) {
   return '<div class="row"><div class="ic" aria-hidden="true">💵</div>' +
-    '<div class="t">Frutinovelas TV<small>Ingresos por contenido</small><small>' + fechaBonita(d.fecha) + '</small></div>' +
-    '<div class="m">' + dinero(d.monto) + '<small>Monto bruto: ' + dinero(d.monto) + '<br>' +
+    '<div class="t">' + actual.nombre + '<small>Ingresos por contenido</small><small>' + fechaBonita(d.fecha) + '</small></div>' +
+    '<div class="m">' + dinero(d.monto) + ' USD<small>Monto bruto: ' + dinero(d.monto) + '<br>' +
     (alcanzado ? 'Listo para pago' : 'Listo, por debajo del límite') + '</small></div></div>';
 }
 var conIngresos = INGRESOS.filter(function (d) { return d.monto > 0; })
@@ -418,6 +474,47 @@ document.querySelectorAll(".promo .x").forEach(function (b) {
   b.addEventListener("click", function () { b.closest(".promo").hidden = true; pintarDots(); });
 });
 pintarDots();
+
+// Foto de perfil y menú para cambiar de página
+function fotoHTML(p) {
+  return p.foto ? '<img src="' + p.foto + '" alt="">' : p.emoji;
+}
+function pintarFoto(el, p) {
+  el.innerHTML = fotoHTML(p);
+  el.style.background = p.foto ? "transparent" : p.color;
+}
+pintarFoto($("fotoActual"), actual);
+document.title = "Pagos · " + actual.nombre;
+Object.keys(PERFILES).forEach(function (id) {
+  var p = PERFILES[id];
+  var b = document.createElement("button");
+  b.className = "opcion";
+  b.setAttribute("role", "menuitem");
+  if (id === idActual) b.setAttribute("aria-current", "true");
+  b.innerHTML = '<span class="foto"></span><span>' + p.nombre + '</span>' +
+    '<svg class="check" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>';
+  pintarFoto(b.querySelector(".foto"), p);
+  b.addEventListener("click", function () {
+    if (id === idActual) { cerrarMenu(); return; }
+    location.hash = id;
+    location.reload();
+  });
+  $("listaPerfiles").appendChild(b);
+});
+function cerrarMenu() {
+  $("menuPerfiles").hidden = true;
+  $("avatarBtn").setAttribute("aria-expanded", "false");
+}
+$("avatarBtn").addEventListener("click", function (e) {
+  e.stopPropagation();
+  var abrir = $("menuPerfiles").hidden;
+  $("menuPerfiles").hidden = !abrir;
+  this.setAttribute("aria-expanded", abrir ? "true" : "false");
+});
+document.addEventListener("click", function (e) {
+  if (!$("menuPerfiles").hidden && !e.target.closest(".perfiles-wrap")) cerrarMenu();
+});
+document.addEventListener("keydown", function (e) { if (e.key === "Escape") cerrarMenu(); });
 
 // Estrellas
 var starsBox = $("stars");
