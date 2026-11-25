@@ -79,6 +79,8 @@ button{font-family:inherit;cursor:pointer;color:inherit}
 .panel h3{font:700 18px var(--ff-h);display:flex;align-items:center;gap:8px}
 .link{color:var(--teal);font-weight:600;font-size:15px;text-decoration:none;background:none;border:0;padding:4px 0}
 
+.amount{font:800 32px/1.1 var(--ff-h);margin:10px 0 4px}
+
 /* Gráfico */
 .chart-wrap{position:relative;margin:26px 0 6px 40px}
 .chart{position:relative;height:150px;display:flex;align-items:flex-end;gap:10px;padding:0 4px;border-bottom:1px solid var(--line)}
@@ -157,7 +159,8 @@ button{font-family:inherit;cursor:pointer;color:inherit}
   <div id="p-general" role="tabpanel" aria-labelledby="t-general">
     <div class="pad">
       <section class="panel">
-        <div class="panel-head"><h3>Ingresos por mes</h3><button class="link" data-ir="trans">Ver todas</button></div>
+        <div class="panel-head"><h3>Total de ingresos</h3><button class="link" data-ir="trans">Ver todas</button></div>
+        <div class="amount" id="monto"></div>
 
         <div id="vistaGrafico">
           <div class="chart-wrap">
@@ -294,6 +297,7 @@ $("cta3").href = CONFIG.enlaceCobro;
 // Total de ingresos
 var total = INGRESOS.reduce(function (s, d) { return s + d.monto; }, 0);
 var alcanzado = total >= CONFIG.minimo;
+$("monto").textContent = dinero(total) + " USD";
 $("totalTxt").textContent = dinero(total) + " USD";
 
 // Gráfico de barras
