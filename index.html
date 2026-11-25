@@ -67,34 +67,17 @@ button{font-family:inherit;cursor:pointer;color:inherit}
 .tab{border:0;background:transparent;color:var(--ink);font:500 15px var(--ff-b);padding:10px 16px;border-radius:22px;white-space:nowrap;transition:background .2s}
 .tab[aria-selected=true]{background:var(--chip);font-weight:600}
 
-/* Tarjetas deslizables */
-.slider{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 16px 8px;scrollbar-width:none}
-.slider::-webkit-scrollbar{display:none}
-.promo{flex:0 0 88%;scroll-snap-align:center;background:var(--card);border-radius:14px;padding:16px;border:1px solid var(--line);box-shadow:var(--shadow)}
-.promo-head{display:flex;gap:12px;align-items:flex-start}
 .coin{flex:none;width:44px;height:44px;border-radius:50%;background:var(--lime);display:grid;place-items:center;font-size:22px}
-.promo h2{font:700 16px/1.25 var(--ff-h);flex:1}
-.promo p{font-size:14px;color:var(--muted);margin:6px 0 0;line-height:1.4}
 .x{flex:none;width:32px;height:32px;border-radius:50%;border:0;background:var(--chip);color:var(--ink);font-size:15px;line-height:1}
 .btn{display:block;width:100%;text-align:center;text-decoration:none;background:var(--teal);color:#fff;font:700 16px var(--ff-h);padding:13px;border-radius:10px;margin-top:14px;border:0;transition:background .2s,transform .1s}
 .btn:hover{background:var(--teal-d)}
 .btn:active{transform:scale(.98)}
-.dots{display:flex;justify-content:center;gap:6px;margin:4px 0 14px}
-.dot{width:6px;height:6px;border-radius:3px;background:var(--line);transition:width .25s,background .25s}
-.dot.on{width:18px;background:var(--teal)}
 
 /* Pendiente de cobro */
 .panel{background:var(--card);border-radius:14px;padding:18px;border:1px solid var(--line);margin-bottom:12px;box-shadow:var(--shadow)}
 .panel-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .panel h3{font:700 18px var(--ff-h);display:flex;align-items:center;gap:8px}
-.warn{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:#b8860b;color:#fff;font:700 12px var(--ff-b)}
 .link{color:var(--teal);font-weight:600;font-size:15px;text-decoration:none;background:none;border:0;padding:4px 0}
-.amount{font:800 32px/1.1 var(--ff-h);margin:10px 0 4px}
-.note{font-size:14px;color:var(--muted)}
-.progress{height:8px;background:var(--chip);border-radius:4px;overflow:hidden;margin:12px 0 6px}
-.progress i{display:block;height:100%;width:0;background:var(--teal);border-radius:4px;transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
-.prog-txt{font-size:13px;color:var(--muted)}
-.prog-txt b{color:var(--ink);font-weight:600}
 
 /* Gráfico */
 .chart-wrap{position:relative;margin:26px 0 6px 40px}
@@ -141,21 +124,11 @@ button{font-family:inherit;cursor:pointer;color:inherit}
 .empty h3{justify-content:center;margin-bottom:6px}
 .empty p{font-size:14px;color:var(--muted);line-height:1.45}
 
-/* Calificación */
-.rate{background:var(--card);border-radius:14px;padding:16px;border:1px solid var(--line);box-shadow:var(--shadow);margin-top:14px}
-.rate-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.rate-head h5{font:700 16px var(--ff-h)}
-.stars{display:flex;gap:10px;margin-top:12px}
-.star{border:0;background:transparent;padding:0;width:38px;height:38px;color:var(--star);transition:transform .15s}
-.star:active{transform:scale(.88)}
-.star svg{width:100%;height:100%;stroke:currentColor;stroke-width:2;fill:none;stroke-linejoin:round}
-.star.on svg{fill:currentColor}
-.thanks{font-size:14px;color:var(--muted);margin-top:10px;min-height:1em}
 
 .foot{margin-top:20px;font-size:12px;color:var(--muted);text-align:center;line-height:1.5}
 .fade{animation:fade .35s ease}
 @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-@media (prefers-reduced-motion:reduce){.bar,.progress i,.dot{transition:none}.fade{animation:none}}
+@media (prefers-reduced-motion:reduce){.bar{transition:none}.fade{animation:none}}
 </style>
 </head>
 <body>
@@ -183,35 +156,9 @@ button{font-family:inherit;cursor:pointer;color:inherit}
 
   <!-- ===== PESTAÑA 1: INFORMACIÓN GENERAL ===== -->
   <div id="p-general" role="tabpanel" aria-labelledby="t-general">
-    <div class="slider" id="slider">
-      <section class="promo">
-        <div class="promo-head">
-          <div class="coin" aria-hidden="true">🪙</div>
-          <h2 id="promoTitulo">Te falta poco para tu primer cobro</h2>
-          <button class="x" aria-label="Cerrar tarjeta">✕</button>
-        </div>
-        <p>Configura tu método de cobro para recibir tus ingresos cuando llegues al mínimo.</p>
-        <a class="btn" id="cta" href="#">Empezar</a>
-      </section>
-      <section class="promo">
-        <div class="promo-head">
-          <div class="coin" aria-hidden="true">✅</div>
-          <h2>Completa tu perfil de creador</h2>
-          <button class="x" aria-label="Cerrar tarjeta">✕</button>
-        </div>
-        <p>Agrega tu nombre y tu foto para que tu comunidad te reconozca.</p>
-        <a class="btn" id="cta2" href="#">Completar perfil</a>
-      </section>
-    </div>
-    <div class="dots" id="dots" aria-hidden="true"></div>
-
     <div class="pad">
       <section class="panel">
-        <div class="panel-head"><h3>Pendiente de pago <span class="warn" aria-hidden="true">!</span></h3><button class="link" data-ir="trans">Ver todas</button></div>
-        <div class="amount" id="monto">--,-- USD</div>
-        <p class="note" id="nota">Se requiere un ingreso mínimo de $25,00.</p>
-        <div class="progress" aria-hidden="true"><i id="barraProgreso"></i></div>
-        <p class="prog-txt" id="progTxt"></p>
+        <div class="panel-head"><h3>Ingresos por mes</h3><button class="link" data-ir="trans">Ver todas</button></div>
 
         <div id="vistaGrafico">
           <div class="chart-wrap">
@@ -232,11 +179,6 @@ button{font-family:inherit;cursor:pointer;color:inherit}
         <div id="actividad"></div>
       </section>
 
-      <section class="rate" id="rate">
-        <div class="rate-head"><h5>¿Cómo calificarías tu experiencia?</h5><button class="x" id="rateClose" aria-label="Cerrar calificación">✕</button></div>
-        <div class="stars" id="stars" role="group" aria-label="Calificación de 1 a 5 estrellas"></div>
-        <p class="thanks" id="thanks" aria-live="polite"></p>
-      </section>
     </div>
   </div>
 
@@ -269,8 +211,6 @@ button{font-family:inherit;cursor:pointer;color:inherit}
    ✏️ CONFIGURACIÓN: cambia solo esta parte
    ========================================================= */
 var CONFIG = {
-  enlaceEmpezar: "#",   // botón "Empezar" (ej. https://wa.me/51999999999)
-  enlacePerfil:  "#",   // botón "Completar perfil"
   enlaceCobro:   "#",   // botón "Agregar forma de cobro"
   minimo: 25           // monto mínimo para cobrar (USD)
 };
@@ -353,24 +293,12 @@ $("yMax").textContent = corto(maxGrafico);
 $("yMid").textContent = corto(maxGrafico / 2);
 
 // Enlaces de botones
-$("cta").href = CONFIG.enlaceEmpezar;
-$("cta2").href = CONFIG.enlacePerfil;
 $("cta3").href = CONFIG.enlaceCobro;
 
-// Totales y progreso hacia el mínimo
+// Total de ingresos
 var total = INGRESOS.reduce(function (s, d) { return s + d.monto; }, 0);
 var alcanzado = total >= CONFIG.minimo;
-$("monto").textContent = alcanzado ? dinero(total) + " USD" : "--,-- USD";
-var falta = Math.max(0, CONFIG.minimo - total);
-$("nota").textContent = "Se requiere un ingreso mínimo de " + dinero(CONFIG.minimo) + ".";
-$("promoTitulo").textContent = falta > 0
-  ? "Te faltan " + dinero(falta) + " USD para recibir tu primer pago"
-  : "¡Ya alcanzaste el mínimo para cobrar!";
-$("progTxt").innerHTML = "Acumulado: <b>" + dinero(total) + "</b> de " + dinero(CONFIG.minimo);
 $("totalTxt").textContent = dinero(total) + " USD";
-setTimeout(function () {
-  $("barraProgreso").style.width = Math.min(100, total / CONFIG.minimo * 100) + "%";
-}, 300);
 
 // Gráfico de barras
 var chart = $("chart"), months = $("months");
@@ -455,26 +383,6 @@ $("volver").addEventListener("click", function () {
   else if (history.length > 1) history.back();
 });
 
-// Tarjetas deslizables + puntitos
-var slider = $("slider"), dots = $("dots");
-function promosVisibles() {
-  return Array.prototype.filter.call(slider.querySelectorAll(".promo"), function (p) { return !p.hidden; });
-}
-function pintarDots() {
-  var vis = promosVisibles();
-  dots.hidden = vis.length < 2;
-  slider.hidden = vis.length === 0;
-  var idx = Math.round(slider.scrollLeft / (vis[0] ? vis[0].offsetWidth + 10 : 1));
-  dots.innerHTML = vis.map(function (_, i) {
-    return '<span class="dot' + (i === Math.min(idx, vis.length - 1) ? " on" : "") + '"></span>';
-  }).join("");
-}
-slider.addEventListener("scroll", function () { window.requestAnimationFrame(pintarDots); }, { passive: true });
-document.querySelectorAll(".promo .x").forEach(function (b) {
-  b.addEventListener("click", function () { b.closest(".promo").hidden = true; pintarDots(); });
-});
-pintarDots();
-
 // Foto de perfil y menú para cambiar de página
 function fotoHTML(p) {
   return p.foto ? '<img src="' + p.foto + '" alt="">' : p.emoji;
@@ -516,24 +424,6 @@ document.addEventListener("click", function (e) {
 });
 document.addEventListener("keydown", function (e) { if (e.key === "Escape") cerrarMenu(); });
 
-// Estrellas
-var starsBox = $("stars");
-var svg = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9 6.8 19.6l1-5.8L3.5 9.7l5.9-.9z"/></svg>';
-var frases = ["", "Gracias, lo tendremos en cuenta.", "Gracias, vamos a mejorar.", "¡Gracias por tu opinión!", "¡Genial, gracias!", "¡Nos alegra mucho! 🎉"];
-for (var i = 1; i <= 5; i++) {
-  (function (n) {
-    var s = document.createElement("button");
-    s.className = "star";
-    s.setAttribute("aria-label", n + (n === 1 ? " estrella" : " estrellas"));
-    s.innerHTML = svg;
-    s.addEventListener("click", function () {
-      starsBox.querySelectorAll(".star").forEach(function (x, k) { x.classList.toggle("on", k < n); });
-      $("thanks").textContent = frases[n];
-    });
-    starsBox.appendChild(s);
-  })(i);
-}
-$("rateClose").addEventListener("click", function () { $("rate").hidden = true; });
 </script>
 </body>
 </html>
